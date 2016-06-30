@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Apedate;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -25,19 +25,8 @@ class User extends Authenticatable
   ];
 
   public function profile() {
-    return $this->hasOne('App\Profile');
-  }
+    return $this->hasOne('Apedate\Profile');
+     }
 
-  public function store()
-  {
-    $userData = new User(Input::only('username'));
-    $userProfileData = new Profile(Input::except('username'));
 
-    $userData->save();
-    $userProfileData->users_id = $userData->id;
-    $userProfileData->save();
-
-    Flash::success('A new user has been created successfully.');
-    return Redirect::route('\home');
-  }
 }

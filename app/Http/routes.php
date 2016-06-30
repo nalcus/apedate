@@ -17,7 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
+
+Route::get('/alert', function () {
+  return redirect()->route('home')->with('info','Alert is working!');
+});
 
 // authentication
 Route::auth();
