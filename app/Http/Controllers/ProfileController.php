@@ -9,5 +9,13 @@ use Apedate\Http\Requests;
 
 class ProfileController extends Controller
 {
-  //
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
+  public function user()
+{
+    return $this->belongsTo('Apedate\User');
+}
 }

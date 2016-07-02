@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Apedate\Http\Requests;
 use Apedate\User;
+use Apedate\Profile;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
     $this->validate($request, [
       'email' => 'email|unique:users|required',
       'username' => 'required|max:64',
-      'password' => 'required|min:6'
+      'password' => 'required|min:6|confirmed'
     ]);
 
     $username = $request['username'];
@@ -31,6 +32,11 @@ class UserController extends Controller
     $user->save();
 
     Auth::login($user);
+
+    $profile = new Profile();
+    $profile->user_id = $user->id;
+
+    $profile->save();
 
     return redirect()->route('dashboard');
   }
@@ -47,7 +53,7 @@ class UserController extends Controller
   public function getLogOut()
   {
     Auth::logout();
-    
+
     return redirect('/');
   }
 
