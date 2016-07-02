@@ -10,19 +10,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['middleware' => ['web']], function () {
 
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 })->middleware('guest');
 
-Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
 
-Route::get('/alert', function () {
-  return redirect()->route('home')->with('info','Alert is working!');
-});
+Route::post('/signup', ['uses'=>'UserController@postSignUp', 'as' => 'signup']);
 
-// authentication
-Route::auth();
-});
+Route::post('/signin', ['uses'=>'UserController@postSignIn', 'as' => 'signin']);
+
+Route::get('/dashboard', ['uses'=>'UserController@getDashboard',
+'as' => 'dashboard',
+'middleware' => 'auth']);
+
+Route::get('/logout', ['uses'=>'UserController@getLogOut', 'as' => 'logout']);
